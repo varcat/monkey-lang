@@ -70,7 +70,6 @@ let result = add(five, ten);`
 		{token.IDENT, "y"},
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
-		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
 		{token.IDENT, "result"},
 		{token.ASSIGN, "="},
@@ -82,6 +81,34 @@ let result = add(five, ten);`
 		{token.RPAREN, ")"},
 		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
+	}
+
+	l := New(input)
+	for i, tt := range tests {
+
+		tok := l.NextToken()
+		if tok.Type != tt.expectedType {
+			t.Fatalf("tests[%d] - type=%q literal=%q; tokentype wrong. expected=%q, got=%q", i, tok.Type, tok.Literal, tt.expectedType, tt.expectedLiteral)
+		}
+	}
+}
+
+func TestNextToken3(t *testing.T) {
+	input := "- / * < > true false if else return == ! !="
+	tests := []TestToken{
+		{token.MINUS, "-"},
+		{token.SLASH, "/"},
+		{token.ASTERISK, "*"},
+		{token.LT, "<"},
+		{token.GT, ">"},
+		{token.TRUE, "true"},
+		{token.FALSE, "false"},
+		{token.IF, "if"},
+		{token.ELSE, "else"},
+		{token.RETURN, "return"},
+		{token.EQ, "=="},
+		{token.LOGICAL_NOT, "!"},
+		{token.NOT_EQ, "!="},
 	}
 
 	l := New(input)
